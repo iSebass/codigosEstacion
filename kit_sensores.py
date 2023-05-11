@@ -36,11 +36,11 @@ listCardinalPos = {1:"NORTE",
 #Metodos relacionados con la interrupciones
 def pluviometerTick(self):
     global count_pluviometer,statusCountPluv, pluviometerSensor
-    pluviometerSensor.disable_irq()
-    time.sleep(0.2)
+    pluviometerSensor.irq(trigger=0)
+    time.sleep(0.5)
     count_pluviometer +=1
     print("entro Pluvi")
-    pluviometerSensor.enable_irq()
+    pluviometerSensor.irq(handler=pluviometerTick, trigger=Pin.IRQ_FALLING)
     
 
 #Metodo encargado de contar cada que el anemometro de una vuelta.
