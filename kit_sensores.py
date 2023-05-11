@@ -10,6 +10,8 @@ import time
 global windSensor, windCurrentPosition, listCardinalPos
 global count_wind,count_pluviometer,tSample, windSpeed, statusCountPluv
 
+global pluviometerSensor 
+
 #Count es una variable para medir las vueltas que ha dado el anemometro en unidad de tiempo
 count_wind        = 0
 count_pluviometer = 0
@@ -33,9 +35,11 @@ listCardinalPos = {1:"NORTE",
 
 #Metodos relacionados con la interrupciones
 def pluviometerTick(self):
-    global count_pluviometer,statusCountPluv
+    global count_pluviometer,statusCountPluv, pluviometerSensor
+    pluviometerSensor.disable_irq()
     count_pluviometer +=1
     print("entro Pluvi")
+    pluviometerSensor.enable_irq()
     
 
 #Metodo encargado de contar cada que el anemometro de una vuelta.
@@ -84,8 +88,8 @@ class SensorKit():
         self.anemometerSensor =  Pin(PinAnemometer,Pin.IN)
         self.anemometerSensor.irq(handler=windTick, trigger=Pin.IRQ_FALLING)
         
-        self.pluviometerSensor = Pin(PinPluviometer,Pin.IN, Pin.PULL_UP)
-        self.pluviometerSensor.irq(handler=pluviometerTick, trigger=Pin.IRQ_FALLING)
+        pluviometerSensor = Pin(PinPluviometer,Pin.IN, Pin.PULL_UP)
+        pluviometerSensor.irq(handler=pluviometerTick, trigger=Pin.IRQ_FALLING)
         
         #metodos para establecer muestreo
         self.tSampleAnemometro = Timer(1)
@@ -93,9 +97,6 @@ class SensorKit():
                                     sensorCalculate()
         )
         
-        
-        
-        windPreviusPosition=1
         windCurrentPosition=1
         count=0
     
