@@ -34,10 +34,9 @@ listCardinalPos = {1:"NORTE",
 #Metodos relacionados con la interrupciones
 def pluviometerTick(self):
     global count_pluviometer,statusCountPluv
-    if statusCountPluv:
-        count_pluviometer +=1
-        print("entro Pluvi")
-    statusCountPluv= False
+    count_pluviometer +=1
+    print("entro Pluvi")
+    
 
 #Metodo encargado de contar cada que el anemometro de una vuelta.
 def statusCountPluv(self):
@@ -86,7 +85,7 @@ class SensorKit():
         self.anemometerSensor.irq(handler=windTick, trigger=Pin.IRQ_FALLING)
         
         self.pluviometerSensor = Pin(PinPluviometer,Pin.IN)
-        self.pluviometerSensor.irq(handler=statusCountPluv, trigger=Pin.IRQ_FALLING)
+        self.pluviometerSensor.irq(handler=pluviometerTick, trigger=Pin.IRQ_FALLING)
         
         #metodos para establecer muestreo
         self.tSampleAnemometro = Timer(1)
