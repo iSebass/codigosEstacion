@@ -84,7 +84,7 @@ class SensorKit():
         self.anemometerSensor =  Pin(PinAnemometer,Pin.IN)
         self.anemometerSensor.irq(handler=windTick, trigger=Pin.IRQ_FALLING)
         
-        self.pluviometerSensor = Pin(PinPluviometer,Pin.IN)
+        self.pluviometerSensor = Pin(PinPluviometer,Pin.IN, Pin.PULL_UP)
         self.pluviometerSensor.irq(handler=pluviometerTick, trigger=Pin.IRQ_FALLING)
         
         #metodos para establecer muestreo
