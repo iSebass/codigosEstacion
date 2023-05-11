@@ -37,6 +37,7 @@ listCardinalPos = {1:"NORTE",
 def pluviometerTick(self):
     global count_pluviometer,statusCountPluv, pluviometerSensor
     pluviometerSensor.disable_irq()
+    time.sleep(0.2)
     count_pluviometer +=1
     print("entro Pluvi")
     pluviometerSensor.enable_irq()
